@@ -16,9 +16,58 @@ class DatabaseController extends AbstractActionController
 {
 	public function indexAction()
 	{
-		$this->form            = new \Application\Form\UserForm();
+		// Get the database adapter
+		$sm = $this->getServiceLocator();
+		$db = $sm->get('db');
+
+		$userModel = new \Application\Model\User($db);
+		$users = $userModel->getAllUsers();
+
+		$form = new \Application\Form\UserForm();
 		return new ViewModel(array(
-								  'userForm' => $this->form
+								  'userForm' => $form,
+								  'users' => $users,
 							 ));
+	}
+
+	public function ulozitAction()
+	{
+		// Get the database adapter
+		$sm = $this->getServiceLocator();
+		$db = $sm->get('db');
+
+		$post = $this->getRequest()->getPost();
+		if($post){
+			$firstname = $post['firstname'];
+			$lastname = $post['lastname'];
+
+			if($firstname && $lastname){
+				$userModel = new \Application\Model\User($db);
+				$userModel->addUser($firstname,$lastname);
+			}
+		}
+		$this->redirect()->toUrl($this->getRequest()->getBasePath().'/databaze');
+	}
+
+	public function editovatAction()
+	{
+		// Get the database adapter
+		$sm = $this->getServiceLocator();
+		$db = $sm->get('db');
+
+		$id = $this->params('id');
+
+		$userModel = new \Application\Model\User($db);
+		$user = $userModel->getUserById($id);
+		$users = $userModel->getAllUsers();
+
+		$form = new \Application\Form\UserForm();
+		$view = new ViewModel(array(
+								  'userForm' => $form,
+								  'user' => $user,
+								  'users' => $users,
+							 ));
+		$view->setTemplate('application/database/index');
+		return $view;
 	}
 }

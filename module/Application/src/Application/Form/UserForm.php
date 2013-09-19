@@ -56,6 +56,30 @@ class UserForm extends Form
 		);
 		$this->add(
 			array(
+				 'name'       => 'street',
+				 'attributes' => array(
+					 'id'   => 'street',
+					 'type' => 'text',
+				 ),
+				 'options'    => array(
+					 'label' => 'Ulice:',
+				 ),
+			)
+		);
+		$this->add(
+			array(
+				 'name'       => 'town',
+				 'attributes' => array(
+					 'id'   => 'town',
+					 'type' => 'text',
+				 ),
+				 'options'    => array(
+					 'label' => 'Město:',
+				 ),
+			)
+		);
+		$this->add(
+			array(
 				 'name'       => 'submit',
 				 'attributes' => array(
 					 'type'  => 'submit',
