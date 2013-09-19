@@ -18,3 +18,10 @@ echo $this->form()->openTag($fileUploadForm);
 	</tbody>
 </table>
 <?= $this->form()->closeTag(); ?>
+
+<?php if($this->images){
+    $dir = $this->basePath()."/images/min/";
+    foreach($this->images as $image){?>
+        <img src="<?=$dir.$image['name']?>" />
+<?php }
+} ?>

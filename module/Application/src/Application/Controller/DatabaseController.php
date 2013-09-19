@@ -20,7 +20,10 @@ class DatabaseController extends AbstractActionController
     public function indexAction()
     {
         $form = new UserForm();
-        return new ViewModel(array('userForm' => $form, 'users' => $this->getAllUsers()));
+        return new ViewModel(array(
+                                  'userForm' => $form,
+                                  'users'    => $this->getAllUsers()
+                             ));
     }
 
     public function ulozitAction()

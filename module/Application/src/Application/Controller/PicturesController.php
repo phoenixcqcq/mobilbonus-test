@@ -20,7 +20,8 @@ class PicturesController extends AbstractActionController
     {
         $form = new FileUploadForm();
         return new ViewModel(array(
-                                  'fileUploadForm' => $form
+                                  'fileUploadForm' => $form,
+                                  'images'         => $this->getAllImages()
                              ));
     }
 
@@ -42,8 +43,20 @@ class PicturesController extends AbstractActionController
         $this->redirect()->toUrl($this->getRequest()->getBasePath().'/prace-s-obrazkem');
     }
 
-    private function fileProcess(){
-        
+    private function getAllImages()
+    {
+        $serviceLocator = $this->getServiceLocator();
+
+        $fileModel = new File($serviceLocator);
+        return $fileModel->getAllImages();
+    }
+
+    private function getImageById($id)
+    {
+        $serviceLocator = $this->getServiceLocator();
+
+        $fileModel = new File($serviceLocator);
+        return $fileModel->getImageById($id);
     }
 
 }

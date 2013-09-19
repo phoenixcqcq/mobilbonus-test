@@ -72,15 +72,16 @@ class File
                     $error[] = $row;
                 }
                 $form->setMessages(array('fileupload' => $error));
-
-                return false;
             } else {
                 $adapter->setDestination($dir);
                 if ($adapter->receive($fileName)) {
                     $formModel->exchangeArray($form->getData());
                 }
 
-                return $this->createThumbnail($dir, $dir."min/", $fileName, 100, 100);
+                if($this->createThumbnail($dir, $dir."min/", $fileName, 100, 100)){
+                    $this->storeImg($fileName);
+                    return true;
+                }
             }
         }
         return false;
@@ -98,5 +99,37 @@ class File
         $image->thumbnail($size, $mode)->save($destinationDir.$fileName);
 
         return true;
+    }
+
+    private function storeImg($fileName)
+    {
+        $sql = "INSERT INTO images (name, date) VALUES (?,?)";
+        $date = date("Y-m-d h:i:s");
+        $statement = $this->dbAdapter->createStatement($sql, array($fileName, $date));
+        $result    = $statement->execute();
+        return $result->getAffectedRows();
+    }
+
+    public function getAllImages(){
+        $sql = "SELECT * FROM images";
+
+        $statement = $this->dbAdapter->createStatement($sql);
+        $result    = $statement->execute();
+
+        $return = array();
+        while ($result->next()) {
+            $return[] = $result->current();
+        }
+
+        return $return;
+    }
+
+    public function getImageById($id){
+        $sql = "SELECT * FROM images WHERE id = ? LIMIT 1";
+
+        $statement = $this->dbAdapter->createStatement($sql, array($id));
+        $result    = $statement->execute()->current();
+
+        return $result;
     }
 }
