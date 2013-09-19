@@ -1,1 +1,23 @@
 <h3>Databáze</h3>
+<?php
+$userForm = $this->userForm;
+$userForm->prepare();
+$userForm->setAttribute('action', $this->url('databaze', array('action' => 'test')));
+echo $this->form()->openTag($userForm);
+?>
+<table>
+	<tbody>
+	<tr>
+		<td><?= $userForm->get('firstname')->getLabel(); ?></td>
+		<td><?= $this->formElement($userForm->get('firstname')); ?></td>
+	</tr>
+	<tr>
+		<td><?= $userForm->get('lastname')->getLabel(); ?></td>
+		<td><?= $this->formElement($userForm->get('lastname')); ?></td>
+	</tr><tr>
+		<td></td>
+		<td><?= $this->formSubmit($userForm->get('submit')); ?></td>
+	</tr>
+	</tbody>
+</table>
+<?= $this->form()->closeTag(); ?>

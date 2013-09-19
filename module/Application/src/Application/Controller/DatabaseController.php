@@ -16,6 +16,9 @@ class DatabaseController extends AbstractActionController
 {
 	public function indexAction()
 	{
-		return new ViewModel();
+		$this->form            = new \Application\Form\UserForm();
+		return new ViewModel(array(
+								  'userForm' => $this->form
+							 ));
 	}
 }

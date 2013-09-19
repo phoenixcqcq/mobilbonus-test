@@ -1,1 +1,20 @@
 <h3>Práce s obrázkem</h3>
+<?php
+$fileUploadForm = $this->fileUploadForm;
+$fileUploadForm->prepare();
+$fileUploadForm->setAttribute('action', $this->url('prace-s-obrazkem', array('action' => 'test')));
+echo $this->form()->openTag($fileUploadForm);
+?>
+<table>
+	<tbody>
+	<tr>
+		<td><?= $fileUploadForm->get('file')->getLabel(); ?></td>
+		<td><?= $this->formElement($fileUploadForm->get('file')); ?></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><?= $this->formSubmit($fileUploadForm->get('submit')); ?></td>
+	</tr>
+	</tbody>
+</table>
+<?= $this->form()->closeTag(); ?>

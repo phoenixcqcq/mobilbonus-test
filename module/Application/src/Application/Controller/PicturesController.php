@@ -16,6 +16,9 @@ class PicturesController extends AbstractActionController
 {
 	public function indexAction()
 	{
-		return new ViewModel();
+		$this->form            = new \Application\Form\FileUploadForm();
+		return new ViewModel(array(
+								  'fileUploadForm' => $this->form
+							 ));
 	}
 }
