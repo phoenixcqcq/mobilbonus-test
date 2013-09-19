@@ -20,42 +20,41 @@ use Zend\Form\Form;
 class FileUploadForm extends Form
 {
 
-	/**
-	 * Constructor creates the form
-	 *
-	 * @param string $name
-	 */
-	public function __construct(string $name = null)
-	{
-		parent::__construct('file-upload');
+    /**
+     * Constructor creates the form
+     *
+     * @param string $name
+     */
+    public function __construct(string $name = null)
+    {
+        parent::__construct('file-upload');
 
-		$this->setAttribute('method', 'post');
-        $this->setAttribute('enctype','multipart/form-data');
+        $this->setAttribute('method', 'post');
+        $this->setAttribute('enctype', 'multipart/form-data');
 
-		$this->add(
-			array(
-				'name' => 'file',
-				'attributes' => array(
-					'id'   => 'file',
-					'type'  => 'file',
-				),
-				'options' => array(
-					'label' => 'Obrázek:',
-				),
-			)
-		);
+        $this->add(
+            array(
+                 'name'       => 'file',
+                 'attributes' => array(
+                     'id'   => 'file',
+                     'type' => 'file',
+                 ),
+                 'options'    => array(
+                     'label' => 'Obrázek:',
+                 ),
+            )
+        );
 
-
-		$this->add(
-			array(
-				'name' => 'submit',
-				'attributes' => array(
-					'type'  => 'submit',
-					'value' => 'Nahrát',
-					'id'    => 'submit',
-					 'class' => 'btn btn-success'
-				),
-			)
-		);
-	}
+        $this->add(
+            array(
+                 'name'       => 'submit',
+                 'attributes' => array(
+                     'type'  => 'submit',
+                     'value' => 'Nahrát',
+                     'id'    => 'submit',
+                     'class' => 'btn btn-success'
+                 ),
+            )
+        );
+    }
 }

@@ -12,63 +12,68 @@ namespace Application\Model;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\ResultSet;
 
-class User{
+class User
+{
 
-	private $firstname;
-	private $lastname;
+    private $firstname;
+    private $lastname;
 
-	/**
-	 * @var Adapter Database adapter
-	 */
-	protected $dbAdapter;
+    /**
+     * @var Adapter Database adapter
+     */
+    protected $dbAdapter;
 
-	/**
-	 * Constructor only needs to setup the database
-	 *
-	 * @param Adapter $dbAdapter
-	 */
-	public function __construct(Adapter $dbAdapter)
-	{
-		$this->dbAdapter = $dbAdapter;
-	}
+    /**
+     * Constructor only needs to setup the database
+     *
+     * @param Adapter $dbAdapter
+     */
+    public function __construct(Adapter $dbAdapter)
+    {
+        $this->dbAdapter = $dbAdapter;
+    }
 
-	public function addUser($firstname, $lastname){
-		$sql = "INSERT INTO user (firstname, lastname) VALUES (?,?)";
+    public function addUser($firstname, $lastname)
+    {
+        $sql = "INSERT INTO user (firstname, lastname) VALUES (?,?)";
 
-		$statement = $this->dbAdapter->createStatement($sql, array($firstname, $lastname));
-		$result    = $statement->execute();
-		return $result->getAffectedRows();
-	}
-
-    public function updateUser($id, $firstname, $lastname, $street, $town){
-        $sql = "UPDATE user SET firstname=?, lastname=?, street=?, town=? WHERE id=?";
-
-        $statement = $this->dbAdapter->createStatement($sql, array($firstname, $lastname, $street, $town, $id));
-        $result    = $statement->execute();
+        $statement = $this->dbAdapter->createStatement($sql, array($firstname, $lastname));
+        $result = $statement->execute();
         return $result->getAffectedRows();
     }
 
-	public function getAllUsers(){
-		$sql = "SELECT * FROM user";
+    public function updateUser($id, $firstname, $lastname, $street, $town)
+    {
+        $sql = "UPDATE user SET firstname=?, lastname=?, street=?, town=? WHERE id=?";
 
-		$statement = $this->dbAdapter->createStatement($sql);
-		$result    = $statement->execute();
+        $statement = $this->dbAdapter->createStatement($sql, array($firstname, $lastname, $street, $town, $id));
+        $result = $statement->execute();
+        return $result->getAffectedRows();
+    }
 
-		$return = array();
-		while ($result->next()) {
-			$return[] = $result->current();
-		}
+    public function getAllUsers()
+    {
+        $sql = "SELECT * FROM user";
 
-		return $return;
-	}
+        $statement = $this->dbAdapter->createStatement($sql);
+        $result = $statement->execute();
 
-	public function getUserById($id){
-		$sql = "SELECT * FROM user WHERE id = ? LIMIT 1";
+        $return = array();
+        while ($result->next()) {
+            $return[] = $result->current();
+        }
 
-		$statement = $this->dbAdapter->createStatement($sql, array($id));
-		$result    = $statement->execute()->current();
+        return $return;
+    }
 
-		return $result;
-	}
+    public function getUserById($id)
+    {
+        $sql = "SELECT * FROM user WHERE id = ? LIMIT 1";
+
+        $statement = $this->dbAdapter->createStatement($sql, array($id));
+        $result = $statement->execute()->current();
+
+        return $result;
+    }
 
 }

@@ -78,7 +78,7 @@ class File
                     $formModel->exchangeArray($form->getData());
                 }
 
-                if($this->createThumbnail($dir, $dir."min/", $fileName, 100, 100)){
+                if ($this->createThumbnail($dir, $dir."min/", $fileName, 100, 100)) {
                     $this->storeImg($fileName);
                     return true;
                 }
@@ -106,15 +106,16 @@ class File
         $sql = "INSERT INTO images (name, date) VALUES (?,?)";
         $date = date("Y-m-d h:i:s");
         $statement = $this->dbAdapter->createStatement($sql, array($fileName, $date));
-        $result    = $statement->execute();
+        $result = $statement->execute();
         return $result->getAffectedRows();
     }
 
-    public function getAllImages(){
+    public function getAllImages()
+    {
         $sql = "SELECT * FROM images";
 
         $statement = $this->dbAdapter->createStatement($sql);
-        $result    = $statement->execute();
+        $result = $statement->execute();
 
         $return = array();
         while ($result->next()) {
@@ -124,11 +125,12 @@ class File
         return $return;
     }
 
-    public function getImageById($id){
+    public function getImageById($id)
+    {
         $sql = "SELECT * FROM images WHERE id = ? LIMIT 1";
 
         $statement = $this->dbAdapter->createStatement($sql, array($id));
-        $result    = $statement->execute()->current();
+        $result = $statement->execute()->current();
 
         return $result;
     }

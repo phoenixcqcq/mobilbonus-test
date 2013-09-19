@@ -48,7 +48,7 @@ class PicturesController extends AbstractActionController
 
             $fileModel = new File($serviceLocator);
 
-            if(!$fileModel->processImage($data)){
+            if (!$fileModel->processImage($data)) {
                 $_SESSION['warning'] = "Soubor se nepodařilo nahrát.";
             }
         }

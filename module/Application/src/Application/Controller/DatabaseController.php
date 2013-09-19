@@ -35,7 +35,7 @@ class DatabaseController extends AbstractActionController
 
     public function ulozitAction()
     {
-        if($this->validate()){
+        if ($this->validate()) {
             // Get the database adapter
             $sm = $this->getServiceLocator();
             $db = $sm->get('db');
@@ -52,7 +52,7 @@ class DatabaseController extends AbstractActionController
                 $lastname = $filter->filter($post['lastname']);
                 $street = $filter->filter($post['street']);
                 $town = $filter->filter($post['town']);
-                
+
                 $userModel = new User($db);
 
                 if ($id) {
@@ -108,7 +108,7 @@ class DatabaseController extends AbstractActionController
             if (!$notEmptyValidator->isValid($lastname)) {
                 $warning[] = "Příjmení nebylo vyplněno.";
             }
-            if(!empty($warning)){
+            if (!empty($warning)) {
                 $_SESSION['warning'] = implode(" ", $warning);
                 return false;
             }

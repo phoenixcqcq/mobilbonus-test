@@ -30,6 +30,7 @@ class CustomAdapterFactory implements FactoryInterface
 
     /**
      * @param ServiceLocatorInterface $serviceLocator
+     *
      * @return Adapter
      */
     public function createService(ServiceLocatorInterface $serviceLocator)

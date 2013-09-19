@@ -26,8 +26,8 @@ $(document).ready(function() {
 /**
  * Set the message dialog if message exists
  */
-function setMessageDialog() {
-	if ($('#message').length) {
+function setMessageDialog(){
+	if($('#message').length){
 		showMessage($('#message').text());
 	}
 }
@@ -37,27 +37,21 @@ function setMessageDialog() {
  *
  * @param message
  */
-function showMessage(message, header) {
-	if (typeof header !== 'undefined') {
-		bootbox.dialog(
-			message,
-			[
-				{
-					"label": "OK",
-					"class": "btn-primary"
-				}
-			],
-			{"header": header}
-		);
-	} else {
-		bootbox.dialog(
-			message,
-			[
-				{
-					"label": "OK",
-					"class": "btn-primary"
-				}
-			]
-		);
+function showMessage(message, header){
+	if(typeof header !== 'undefined'){
+		bootbox.dialog(message, [
+			{
+				"label":"OK",
+				"class":"btn-primary"
+			}
+		], {"header":header});
+	}
+	else{
+		bootbox.dialog(message, [
+			{
+				"label":"OK",
+				"class":"btn-primary"
+			}
+		]);
 	}
 }

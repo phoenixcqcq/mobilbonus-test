@@ -33,13 +33,15 @@ class FileUploadFormModel implements InputFilterAwareInterface
     {
         if (!$this->inputFilter) {
             $inputFilter = new InputFilter();
-            $factory     = new InputFactory();
+            $factory = new InputFactory();
 
             $inputFilter->add(
-                $factory->createInput(array(
-                                           'name'     => 'file',
-                                           'required' => true,
-                                      ))
+                $factory->createInput(
+                    array(
+                         'name'     => 'file',
+                         'required' => true,
+                    )
+                )
             );
 
             $this->inputFilter = $inputFilter;

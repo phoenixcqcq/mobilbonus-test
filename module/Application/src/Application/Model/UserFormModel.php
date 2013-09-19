@@ -17,68 +17,69 @@ use Application\Form\UserForm;
  * @author  Tony
  * @package Application\Model
  */
-class UserFormModel{
-	/**
-	 * @var UserForm
-	 */
-	private $form;
+class UserFormModel
+{
+    /**
+     * @var UserForm
+     */
+    private $form;
 
-	/**
-	 * Constructor just setup the form
-	 */
-	function __construct()
-	{
-		$this->form = new UserForm();
-	}
+    /**
+     * Constructor just setup the form
+     */
+    function __construct()
+    {
+        $this->form = new UserForm();
+    }
 
-	/**
-	 * Return the UserForm
-	 *
-	 * @return UserForm
-	 */
-	public function getForm()
-	{
-		return $this->form;
-	}
+    /**
+     * Return the UserForm
+     *
+     * @return UserForm
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
 
-	/**
-	 * Populate the firstname
-	 *
-	 * @param $firstname
-	 */
-	public function populateFirstname($firstname)
-	{
-		$this->form->get('firstname')->setAttribute('value', $firstname);
-	}
+    /**
+     * Populate the firstname
+     *
+     * @param $firstname
+     */
+    public function populateFirstname($firstname)
+    {
+        $this->form->get('firstname')->setAttribute('value', $firstname);
+    }
 
-	/**
-	 * Populate the lastname
-	 *
-	 * @param $lastname
-	 */
-	public function populateLastname($lastname)
-	{
-		$this->form->get('lastname')->setAttribute('value', $lastname);
-	}
+    /**
+     * Populate the lastname
+     *
+     * @param $lastname
+     */
+    public function populateLastname($lastname)
+    {
+        $this->form->get('lastname')->setAttribute('value', $lastname);
+    }
 
-	/**
-	 * Populate the street
-	 *
-	 * @param $street
-	 */
-	public function populateStreet($street)
-	{
-		$this->form->get('street')->setAttribute('value', $street);
-	}
+    /**
+     * Populate the street
+     *
+     * @param $street
+     */
+    public function populateStreet($street)
+    {
+        $this->form->get('street')->setAttribute('value', $street);
+    }
 
-	/**
-	 * Populate the town
-	 *
-	 * @param $town
-	 */
-	public function populateTown($town)
-	{
-		$this->form->get('town')->setAttribute('value', $town);
-	}
+    /**
+     * Populate the town
+     *
+     * @param $town
+     */
+    public function populateTown($town)
+    {
+        $this->form->get('town')->setAttribute('value', $town);
+    }
 
 }
