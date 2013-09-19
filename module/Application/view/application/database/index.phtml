@@ -1,3 +1,7 @@
+<?php if ($this->warning) { ?>
+<div id="message"><?= $this->warning; ?></div>
+<?php } ?>
+
 <h3>Databáze</h3>
 <?php
 $userForm = $this->userForm;
