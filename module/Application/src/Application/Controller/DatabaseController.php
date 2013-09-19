@@ -14,10 +14,20 @@ use Zend\View\Model\ViewModel;
 use Application\Model\User;
 use Application\Form\UserForm;
 use Application\Model\UserFormModel;
-use Zend\Filter\StaticFilter;
 
+/**
+ * Class DatabaseController
+ *
+ * @author  Tony
+ * @package Application\Controller
+ */
 class DatabaseController extends AbstractActionController
 {
+    /**
+     * Index action
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
     public function indexAction()
     {
         $form = new UserForm();
@@ -33,6 +43,9 @@ class DatabaseController extends AbstractActionController
                              ));
     }
 
+    /**
+     * Save user data
+     */
     public function ulozitAction()
     {
         if ($this->validate()) {
@@ -66,6 +79,11 @@ class DatabaseController extends AbstractActionController
         $this->redirect()->toUrl($this->getRequest()->getBasePath().'/databaze');
     }
 
+    /**
+     * Edit user data
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
     public function editovatAction()
     {
         $id = (int)$this->params()->fromRoute('id', 0);
@@ -88,6 +106,11 @@ class DatabaseController extends AbstractActionController
         return $view;
     }
 
+    /**
+     * Validate firstname and lastname
+     *
+     * @return bool
+     */
     private function validate()
     {
         if ($this->getRequest()->isPost()) {
@@ -116,6 +139,11 @@ class DatabaseController extends AbstractActionController
         return true;
     }
 
+    /**
+     * Get all users
+     *
+     * @return array
+     */
     private function getAllUsers()
     {
         // Get database adapter
@@ -125,6 +153,13 @@ class DatabaseController extends AbstractActionController
         return $userModel->getAllUsers();
     }
 
+    /**
+     * Get one user by id
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
     private function getUserById($id)
     {
         // Get database adapter

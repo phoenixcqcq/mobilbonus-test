@@ -19,9 +19,21 @@ use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Zend\File\Transfer\Adapter\Http;
 
+/**
+ * Class File
+ *
+ * @author  Tony
+ * @package Application\Model
+ */
 class File
 {
+    /**
+     * @const MIN_SIZE
+     */
     const MIN_SIZE = 1;
+    /**
+     * @const MAX_SIZE
+     */
     const MAX_SIZE = 5242880; // 5MB
 
     /**
@@ -30,7 +42,7 @@ class File
     protected $dbAdapter;
 
     /**
-     * @var Adapter Database adapter
+     * @var ServiceLocatorInterface $serviceLocator
      */
     protected $serviceLocator;
 
@@ -46,6 +58,13 @@ class File
 
     }
 
+    /**
+     * Process the uploades file and save as image if jpg/gif, create thumbnail
+     *
+     * @param $data
+     *
+     * @return bool
+     */
     public function processImage($data)
     {
         $form = new FileUploadForm();
@@ -87,6 +106,16 @@ class File
         return false;
     }
 
+    /**
+     * Create thumbnail from an image
+     *
+     * @param $dir
+     * @param $destinationDir
+     * @param $fileName
+     * @param $width
+     * @param $height
+     * @return bool
+     */
     private function createThumbnail($dir, $destinationDir, $fileName, $width, $height)
     {
 
@@ -101,6 +130,12 @@ class File
         return true;
     }
 
+    /**
+     * Insert image in database
+     *
+     * @param $fileName
+     * @return mixed
+     */
     private function storeImg($fileName)
     {
         $sql = "INSERT INTO images (name, date) VALUES (?,?)";
@@ -110,6 +145,11 @@ class File
         return $result->getAffectedRows();
     }
 
+    /**
+     * Get all images
+     *
+     * @return array
+     */
     public function getAllImages()
     {
         $sql = "SELECT * FROM images";
@@ -125,6 +165,12 @@ class File
         return $return;
     }
 
+    /**
+     * Get one image by id
+     *
+     * @param $id
+     * @return mixed
+     */
     public function getImageById($id)
     {
         $sql = "SELECT * FROM images WHERE id = ? LIMIT 1";

@@ -12,10 +12,22 @@ namespace Application\Model;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\ResultSet;
 
+/**
+ * Class User
+ *
+ * @author  Tony
+ * @package Application\Model
+ */
 class User
 {
 
+    /**
+     * @var $firstname
+     */
     private $firstname;
+    /**
+     * @var $lastname
+     */
     private $lastname;
 
     /**
@@ -33,6 +45,14 @@ class User
         $this->dbAdapter = $dbAdapter;
     }
 
+    /**
+     * Insert user into database
+     *
+     * @param $firstname
+     * @param $lastname
+     *
+     * @return int
+     */
     public function addUser($firstname, $lastname)
     {
         $sql = "INSERT INTO user (firstname, lastname) VALUES (?,?)";
@@ -42,6 +62,16 @@ class User
         return $result->getAffectedRows();
     }
 
+    /**
+     * Update existig user
+     *
+     * @param $id
+     * @param $firstname
+     * @param $lastname
+     * @param $street
+     * @param $town
+     * @return int
+     */
     public function updateUser($id, $firstname, $lastname, $street, $town)
     {
         $sql = "UPDATE user SET firstname=?, lastname=?, street=?, town=? WHERE id=?";
@@ -51,6 +81,11 @@ class User
         return $result->getAffectedRows();
     }
 
+    /**
+     * Get all users
+     *
+     * @return array
+     */
     public function getAllUsers()
     {
         $sql = "SELECT * FROM user";
@@ -66,7 +101,12 @@ class User
         return $return;
     }
 
-    public function getUserById($id)
+    /**
+     * Get one user by id
+     *
+     * @param $id
+     * @return mixed
+     */public function getUserById($id)
     {
         $sql = "SELECT * FROM user WHERE id = ? LIMIT 1";
 

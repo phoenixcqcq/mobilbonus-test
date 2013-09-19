@@ -29,6 +29,8 @@ class CustomAdapterFactory implements FactoryInterface
     }
 
     /**
+     * Configuration to be available
+     *
      * @param ServiceLocatorInterface $serviceLocator
      *
      * @return Adapter

@@ -19,8 +19,19 @@ use Zend\Mail\Message;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Zend\Mail\Transport\SmtpOptions;
 
+/**
+ * Class PicturesController
+ *
+ * @author  Tony
+ * @package Application\Controller
+ */
 class PicturesController extends AbstractActionController
 {
+    /**
+     * Index action
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
     public function indexAction()
     {
         $form = new FileUploadForm();
@@ -36,6 +47,9 @@ class PicturesController extends AbstractActionController
                              ));
     }
 
+    /**
+     * Upload and save image
+     */
     public function nahratAction()
     {
         if ($this->getRequest()->isPost()) {
@@ -56,6 +70,9 @@ class PicturesController extends AbstractActionController
         $this->redirect()->toUrl($this->getRequest()->getBasePath().'/prace-s-obrazkem');
     }
 
+    /**
+     * Send image via email
+     */
     public function poslatAction()
     {
         $id = (int)$this->params()->fromRoute('id', 0);
@@ -77,6 +94,11 @@ class PicturesController extends AbstractActionController
         $this->redirect()->toUrl($this->getRequest()->getBasePath().'/prace-s-obrazkem');
     }
 
+    /**
+     * Get all images
+     *
+     * @return array
+     */
     private function getAllImages()
     {
         $serviceLocator = $this->getServiceLocator();
@@ -85,7 +107,13 @@ class PicturesController extends AbstractActionController
         return $fileModel->getAllImages();
     }
 
-    private function getImageById($id)
+    /**
+     * Get one image by id
+     *
+     * @param $id
+     *
+     * @return mixed
+     */private function getImageById($id)
     {
         $serviceLocator = $this->getServiceLocator();
 
@@ -93,7 +121,12 @@ class PicturesController extends AbstractActionController
         return $fileModel->getImageById($id);
     }
 
-    private function sendEmail($email, $file)
+    /**
+     * Send email
+     *
+     * @param $email
+     * @param $file
+     */private function sendEmail($email, $file)
     {
 
         $dir = dirname(__DIR__).'/../../../../public/images/';
