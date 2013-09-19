@@ -133,3 +133,7 @@ select:focus, input[type="submit"]:focus, input[type="button"]:focus {
 	background-color: #000;
 	opacity: 0.6;
 }
+
+#message {
+	display: none;
+}

@@ -24,9 +24,15 @@ class PicturesController extends AbstractActionController
     public function indexAction()
     {
         $form = new FileUploadForm();
+        $warning = null;
+        if (isset($_SESSION['warning'])) {
+            $warning = $_SESSION['warning'];
+            unset($_SESSION['warning']);
+        }
         return new ViewModel(array(
                                   'fileUploadForm' => $form,
-                                  'images'         => $this->getAllImages()
+                                  'images'         => $this->getAllImages(),
+                                  'warning'        => $warning
                              ));
     }
 
@@ -42,7 +48,9 @@ class PicturesController extends AbstractActionController
 
             $fileModel = new File($serviceLocator);
 
-            $fileModel->processImage($data);
+            if(!$fileModel->processImage($data)){
+                $_SESSION['warning'] = "Soubor se nepodařilo nahrát.";
+            }
         }
 
         $this->redirect()->toUrl($this->getRequest()->getBasePath().'/prace-s-obrazkem');
@@ -55,6 +63,12 @@ class PicturesController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $post = $this->getRequest()->getPost();
             $email = $post['email'];
+            $validator = new \Zend\Validator\EmailAddress();
+            if (!$validator->isValid($email)) {
+                $_SESSION['warning'] = "Emailová adresa není správná.";
+                $this->redirect()->toUrl($this->getRequest()->getBasePath().'/prace-s-obrazkem');
+                exit;
+            }
             $image = $this->getImageById($id);
 
             $this->sendEmail($email, $image['name']);
@@ -62,7 +76,6 @@ class PicturesController extends AbstractActionController
 
         $this->redirect()->toUrl($this->getRequest()->getBasePath().'/prace-s-obrazkem');
     }
-
 
     private function getAllImages()
     {
@@ -80,7 +93,8 @@ class PicturesController extends AbstractActionController
         return $fileModel->getImageById($id);
     }
 
-    private function sendEmail($email, $file){
+    private function sendEmail($email, $file)
+    {
 
         $dir = dirname(__DIR__).'/../../../../public/images/';
         $img = file_get_contents($dir.$file);
@@ -95,26 +109,25 @@ class PicturesController extends AbstractActionController
         $messageAttachment->encoding = \Zend\Mime\Mime::ENCODING_BASE64;
         $messageAttachment->disposition = \Zend\Mime\Mime::DISPOSITION_ATTACHMENT;
 
-        $mimeMessage->setParts(array(
-                                    $messageText,
-                                    $messageAttachment,
-                               ));
+        $mimeMessage->setParts(
+            array(
+                 $messageText,
+                 $messageAttachment,
+            )
+        );
 
         $message = new Message();
-        $message->setEncoding('utf-8')
-            ->addTo($email)
-            ->addFrom('test@test.com') //not relevat
-            ->setSubject('Test')
-            ->setBody($mimeMessage);
+        $message->setEncoding('utf-8')->addTo($email)->addFrom('test@test.com') //not relevat
+            ->setSubject('Test')->setBody($mimeMessage);
 
         $transport = new SmtpTransport();
         $options = new SmtpOptions(array(
-                                        'name' => 'localhost',
-                                        'host' => 'smtp.gmail.com',
-                                        'connection_class' => 'login',
-                                        'port' => '465',
+                                        'name'              => 'localhost',
+                                        'host'              => 'smtp.gmail.com',
+                                        'connection_class'  => 'login',
+                                        'port'              => '465',
                                         'connection_config' => array(
-                                            'ssl' => 'ssl', /* Page would hang without this line being added */
+                                            'ssl'      => 'ssl', /* Page would hang without this line being added */
                                             'username' => 'antonin.vyborny.test@gmail.com',
                                             'password' => 'superheslo',
                                         ),

@@ -1,4 +1,8 @@
-<h3>Práce s obrázkem</h3>
+<?php if ($this->warning) { ?>
+<div id="message"><?= $this->warning; ?></div>
+<?php } ?>
+
+<h3>Práce s obrázkem <?= $this->warning; ?></h3>
 <?php
 $fileUploadForm = $this->fileUploadForm;
 $fileUploadForm->prepare();

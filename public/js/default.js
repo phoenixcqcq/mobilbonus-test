@@ -19,4 +19,45 @@ $(document).ready(function() {
 		$("#popUp").show();
 	});
 
+	setMessageDialog();
+
 });
+
+/**
+ * Set the message dialog if message exists
+ */
+function setMessageDialog() {
+	if ($('#message').length) {
+		showMessage($('#message').text());
+	}
+}
+
+/**
+ * Display the message
+ *
+ * @param message
+ */
+function showMessage(message, header) {
+	if (typeof header !== 'undefined') {
+		bootbox.dialog(
+			message,
+			[
+				{
+					"label": "OK",
+					"class": "btn-primary"
+				}
+			],
+			{"header": header}
+		);
+	} else {
+		bootbox.dialog(
+			message,
+			[
+				{
+					"label": "OK",
+					"class": "btn-primary"
+				}
+			]
+		);
+	}
+}
