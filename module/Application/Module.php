@@ -49,6 +49,10 @@ class Module
 			'factories' => array(
 				'db' => new CustomAdapterFactory('db'),
 			),
+            'invokables' => array(
+                // defining it as invokable here, any factory will do too
+                'my_image_service' => 'Imagine\Gd\Imagine',
+            ),
 		);
 	}
 }
