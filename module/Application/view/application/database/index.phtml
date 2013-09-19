@@ -54,7 +54,7 @@ echo $this->form()->openTag($userForm);
 			<td><?=$user['lastname']?></td>
 			<td><?=$user['street']?></td>
 			<td><?=$user['town']?></td>
-			<td><a href="<?=$this->basePath()?>/databaze/editovat/<?=$user['id']?>">Editovat</a></td>
+			<td><a href="<?=$this->basePath()?>/databaze/editovat/<?=$user['id']?>"><div class="edit"></div></a></td>
 		</tr>
 <?php } ?>
 	</tbody>
