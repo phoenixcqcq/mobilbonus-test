@@ -12,5 +12,10 @@
  */
 
 return array(
-    // ...
+	'db'   => array(
+		'driver'   => 'Pdo',
+		'dsn'      => 'mysql:dbname=mobilbonus-test;host=localhost',
+		'username' => 'root',
+		'password' => '',
+	),
 );

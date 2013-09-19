@@ -11,6 +11,7 @@ namespace Application;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Application\Model\CustomAdapterFactory;
 
 class Module
 {
@@ -36,4 +37,18 @@ class Module
             ),
         );
     }
+
+	/**
+	 * Set the database config
+	 *
+	 * @return array
+	 */
+	public function getServiceConfig()
+	{
+		return array(
+			'factories' => array(
+				'db' => new CustomAdapterFactory('db'),
+			),
+		);
+	}
 }
