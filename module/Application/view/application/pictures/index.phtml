@@ -20,8 +20,8 @@ echo $this->form()->openTag($fileUploadForm);
 <?= $this->form()->closeTag(); ?>
 
 <?php if($this->images){
-    $dir = $this->basePath()."/images/min/";
+    $dir = $this->basePath()."/images/";
     foreach($this->images as $image){?>
-        <img src="<?=$dir.$image['name']?>" />
+	    <a rel="fancy" href="<?=$dir.$image['name']?>"><img src="<?=$dir."min/".$image['name']?>" /></a>
 <?php }
 } ?>
