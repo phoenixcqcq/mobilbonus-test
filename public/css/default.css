@@ -32,9 +32,10 @@ body{
 	float: left;
 }
 #content{
-	width: auto;
+	width: 75%;
 	margin-left: 10px;
 	float: left;
+	text-align: left;
 }
 
 #footer{
@@ -48,11 +49,19 @@ body{
 	text-align: center;
 }
 
-table {
-	margin: auto;
+table tr td {
+	padding: 4px 6px;
+	margin: 0;
+	text-align: left;
 }
 
-table tr td {
+.dataTable {
+	border: 1px solid #ddd;
+}
+
+.dataTable tr th {
+	background-color: #000;
+	color: #fff;
 	padding: 4px 6px;
 	margin: 0;
 	text-align: left;
@@ -79,4 +88,19 @@ select:focus, input[type="submit"]:focus, input[type="button"]:focus {
 	background: url("../img/pencil_16.png") no-repeat;
 	width: 16px;
 	height: 16px;
+}
+.fancy{
+	float:left;
+	border: 1px solid #ddd;
+	padding: 5px;
+	margin: 10px;
+
+}
+.fancy a{
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	vertical-align: middle;
+	display: table-cell;
+
 }

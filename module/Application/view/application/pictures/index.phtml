@@ -19,9 +19,15 @@ echo $this->form()->openTag($fileUploadForm);
 </table>
 <?= $this->form()->closeTag(); ?>
 
-<?php if($this->images){
-    $dir = $this->basePath()."/images/";
+<?php
+    if($this->images){
+	    $dir = $this->basePath()."/images/";
+        $count = 0;
+?>
+<?php
     foreach($this->images as $image){?>
-	    <a rel="fancy" href="<?=$dir.$image['name']?>"><img src="<?=$dir."min/".$image['name']?>" /></a>
+	    <div class="fancy">
+            <a rel="fancy" href="<?=$dir.$image['name']?>"><img src="<?=$dir."min/".$image['name']?>" /></a>
+	    </div>
 <?php }
 } ?>
