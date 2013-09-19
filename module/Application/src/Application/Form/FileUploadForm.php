@@ -30,6 +30,7 @@ class FileUploadForm extends Form
 		parent::__construct('file-upload');
 
 		$this->setAttribute('method', 'post');
+        $this->setAttribute('enctype','multipart/form-data');
 
 		$this->add(
 			array(

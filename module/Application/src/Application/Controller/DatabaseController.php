@@ -29,8 +29,8 @@ class DatabaseController extends AbstractActionController
         $sm = $this->getServiceLocator();
         $db = $sm->get('db');
 
-        $post = $this->getRequest()->getPost();
-        if ($post) {
+        if ($this->getRequest()->isPost()) {
+            $post = $this->getRequest()->getPost();
             $id = $post['id'];
             $firstname = $post['firstname'];
             $lastname = $post['lastname'];
@@ -39,9 +39,9 @@ class DatabaseController extends AbstractActionController
 
             $userModel = new User($db);
 
-            if($id){
+            if ($id) {
                 $userModel->updateUser($id, $firstname, $lastname, $street, $town);
-            }else{
+            } else {
                 $userModel->addUser($firstname, $lastname);
             }
         }
@@ -70,7 +70,8 @@ class DatabaseController extends AbstractActionController
         return $view;
     }
 
-    private function getAllUsers(){
+    private function getAllUsers()
+    {
         // Get database adapter
         $db = $this->getServiceLocator()->get('db');
 
@@ -78,7 +79,8 @@ class DatabaseController extends AbstractActionController
         return $userModel->getAllUsers();
     }
 
-    private function getUserById($id){
+    private function getUserById($id)
+    {
         // Get database adapter
         $db = $this->getServiceLocator()->get('db');
 

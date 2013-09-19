@@ -2,7 +2,7 @@
 <?php
 $fileUploadForm = $this->fileUploadForm;
 $fileUploadForm->prepare();
-$fileUploadForm->setAttribute('action', $this->url('prace-s-obrazkem', array('action' => 'test')));
+$fileUploadForm->setAttribute('action', $this->url('prace-s-obrazkem', array('action' => 'nahrat')));
 echo $this->form()->openTag($fileUploadForm);
 ?>
 <table>

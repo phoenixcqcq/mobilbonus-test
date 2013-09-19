@@ -14,8 +14,8 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
-	public function indexAction()
-	{
-		return new ViewModel();
-	}
+    public function indexAction()
+    {
+        return new ViewModel();
+    }
 }
