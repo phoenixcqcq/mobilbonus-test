@@ -13,6 +13,11 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\Model\File;
 use Application\Form\FileUploadForm;
+use Zend\Mime\Message as MimeMessage;
+use Zend\Mime\Part;
+use Zend\Mail\Message;
+use Zend\Mail\Transport\Smtp as SmtpTransport;
+use Zend\Mail\Transport\SmtpOptions;
 
 class PicturesController extends AbstractActionController
 {
@@ -43,6 +48,22 @@ class PicturesController extends AbstractActionController
         $this->redirect()->toUrl($this->getRequest()->getBasePath().'/prace-s-obrazkem');
     }
 
+    public function poslatAction()
+    {
+        $id = (int)$this->params()->fromRoute('id', 0);
+
+        if ($this->getRequest()->isPost()) {
+            $post = $this->getRequest()->getPost();
+            $email = $post['email'];
+            $image = $this->getImageById($id);
+
+            $this->sendEmail($email, $image['name']);
+        }
+
+        $this->redirect()->toUrl($this->getRequest()->getBasePath().'/prace-s-obrazkem');
+    }
+
+
     private function getAllImages()
     {
         $serviceLocator = $this->getServiceLocator();
@@ -59,4 +80,46 @@ class PicturesController extends AbstractActionController
         return $fileModel->getImageById($id);
     }
 
+    private function sendEmail($email, $file){
+
+        $dir = dirname(__DIR__).'/../../../../public/images/';
+        $img = file_get_contents($dir.$file);
+
+        $mimeMessage = new MimeMessage();
+        $messageText = new Part('Mail Content');
+        $messageText->type = 'text/html';
+
+        $messageAttachment = new Part($img);
+        $messageAttachment->type = 'image/jpg';
+        $messageAttachment->filename = $file;
+        $messageAttachment->encoding = \Zend\Mime\Mime::ENCODING_BASE64;
+        $messageAttachment->disposition = \Zend\Mime\Mime::DISPOSITION_ATTACHMENT;
+
+        $mimeMessage->setParts(array(
+                                    $messageText,
+                                    $messageAttachment,
+                               ));
+
+        $message = new Message();
+        $message->setEncoding('utf-8')
+            ->addTo($email)
+            ->addFrom('test@test.com') //not relevat
+            ->setSubject('Test')
+            ->setBody($mimeMessage);
+
+        $transport = new SmtpTransport();
+        $options = new SmtpOptions(array(
+                                        'name' => 'localhost',
+                                        'host' => 'smtp.gmail.com',
+                                        'connection_class' => 'login',
+                                        'port' => '465',
+                                        'connection_config' => array(
+                                            'ssl' => 'ssl', /* Page would hang without this line being added */
+                                            'username' => 'antonin.vyborny.test@gmail.com',
+                                            'password' => 'superheslo',
+                                        ),
+                                   ));
+        $transport->setOptions($options);
+        $transport->send($message);
+    }
 }

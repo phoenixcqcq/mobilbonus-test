@@ -28,6 +28,12 @@ echo $this->form()->openTag($fileUploadForm);
     foreach($this->images as $image){?>
 	    <div class="fancy">
             <a rel="fancy" href="<?=$dir.$image['name']?>"><img src="<?=$dir."min/".$image['name']?>" /></a>
-	    </div>
+			<span class="send" id="send_<?=$image['id']?>" >Poslat</span>
+        </div>
 <?php }
 } ?>
+
+<div id="sendPopUp"></div>
+<div id="popUp">
+
+</div>
