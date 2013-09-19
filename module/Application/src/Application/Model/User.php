@@ -40,6 +40,14 @@ class User{
 		return $result->getAffectedRows();
 	}
 
+    public function updateUser($id, $firstname, $lastname, $street, $town){
+        $sql = "UPDATE user SET firstname=?, lastname=?, street=?, town=? WHERE id=?";
+
+        $statement = $this->dbAdapter->createStatement($sql, array($firstname, $lastname, $street, $town, $id));
+        $result    = $statement->execute();
+        return $result->getAffectedRows();
+    }
+
 	public function getAllUsers(){
 		$sql = "SELECT * FROM user";
 

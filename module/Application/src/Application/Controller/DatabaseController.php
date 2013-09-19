@@ -11,63 +11,78 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Application\Model\User;
+use Application\Form\UserForm;
+use Application\Model\UserFormModel;
 
 class DatabaseController extends AbstractActionController
 {
-	public function indexAction()
-	{
-		// Get the database adapter
-		$sm = $this->getServiceLocator();
-		$db = $sm->get('db');
+    public function indexAction()
+    {
+        $form = new UserForm();
+        return new ViewModel(array('userForm' => $form, 'users' => $this->getAllUsers()));
+    }
 
-		$userModel = new \Application\Model\User($db);
-		$users = $userModel->getAllUsers();
+    public function ulozitAction()
+    {
+        // Get the database adapter
+        $sm = $this->getServiceLocator();
+        $db = $sm->get('db');
 
-		$form = new \Application\Form\UserForm();
-		return new ViewModel(array(
-								  'userForm' => $form,
-								  'users' => $users,
-							 ));
-	}
+        $post = $this->getRequest()->getPost();
+        if ($post) {
+            $id = $post['id'];
+            $firstname = $post['firstname'];
+            $lastname = $post['lastname'];
+            $street = $post['street'];
+            $town = $post['town'];
 
-	public function ulozitAction()
-	{
-		// Get the database adapter
-		$sm = $this->getServiceLocator();
-		$db = $sm->get('db');
+            $userModel = new User($db);
 
-		$post = $this->getRequest()->getPost();
-		if($post){
-			$firstname = $post['firstname'];
-			$lastname = $post['lastname'];
+            if($id){
+                $userModel->updateUser($id, $firstname, $lastname, $street, $town);
+            }else{
+                $userModel->addUser($firstname, $lastname);
+            }
+        }
+        $this->redirect()->toUrl($this->getRequest()->getBasePath().'/databaze');
+    }
 
-			if($firstname && $lastname){
-				$userModel = new \Application\Model\User($db);
-				$userModel->addUser($firstname,$lastname);
-			}
-		}
-		$this->redirect()->toUrl($this->getRequest()->getBasePath().'/databaze');
-	}
+    public function editovatAction()
+    {
+        $id = (int)$this->params()->fromRoute('id', 0);
 
-	public function editovatAction()
-	{
-		// Get the database adapter
-		$sm = $this->getServiceLocator();
-		$db = $sm->get('db');
+        $user = $this->getUserById($id);
 
-		$id = $this->params('id');
+        $userFormModel = new UserFormModel();
 
-		$userModel = new \Application\Model\User($db);
-		$user = $userModel->getUserById($id);
-		$users = $userModel->getAllUsers();
+        if ($user) {
+            $userFormModel->populateFirstname($user['firstname']);
+            $userFormModel->populateLastname($user['lastname']);
+            $userFormModel->populateStreet($user['street']);
+            $userFormModel->populateTown($user['town']);
+        }
 
-		$form = new \Application\Form\UserForm();
-		$view = new ViewModel(array(
-								  'userForm' => $form,
-								  'user' => $user,
-								  'users' => $users,
-							 ));
-		$view->setTemplate('application/database/index');
-		return $view;
-	}
+        $form = $userFormModel->getForm();
+
+        $view = new ViewModel(array('userForm' => $form, 'user' => $user, 'users' => $this->getAllUsers()));
+        $view->setTemplate('application/database/index');
+        return $view;
+    }
+
+    private function getAllUsers(){
+        // Get database adapter
+        $db = $this->getServiceLocator()->get('db');
+
+        $userModel = new User($db);
+        return $userModel->getAllUsers();
+    }
+
+    private function getUserById($id){
+        // Get database adapter
+        $db = $this->getServiceLocator()->get('db');
+
+        $userModel = new User($db);
+        return $userModel->getUserById($id);
+    }
 }

@@ -28,7 +28,7 @@ echo $this->form()->openTag($userForm);
 <?php }?>
 
 	<tr>
-		<td></td>
+		<td><input type="hidden" name="id" value="<?php if($this->user){ echo $this->user['id']; } ?>"></td>
 		<td><?= $this->formSubmit($userForm->get('submit')); ?></td>
 	</tr>
 	</tbody>
