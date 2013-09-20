@@ -1,0 +1,43 @@
+<?php if ($this->warning) { ?>
+<div id="message"><?= $this->warning; ?></div>
+<?php } ?>
+
+<h3>Práce s obrázkem <?= $this->warning; ?></h3>
+<?php
+$fileUploadForm = $this->fileUploadForm;
+$fileUploadForm->prepare();
+$fileUploadForm->setAttribute('action', $this->url('prace-s-obrazkem', array('action' => 'nahrat')));
+echo $this->form()->openTag($fileUploadForm);
+?>
+<table>
+	<tbody>
+	<tr>
+		<td><?= $fileUploadForm->get('file')->getLabel(); ?></td>
+		<td><?= $this->formElement($fileUploadForm->get('file')); ?></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><?= $this->formSubmit($fileUploadForm->get('submit')); ?></td>
+	</tr>
+	</tbody>
+</table>
+<?= $this->form()->closeTag(); ?>
+
+<?php
+    if($this->images){
+	    $dir = $this->basePath()."/images/";
+        $count = 0;
+?>
+<?php
+    foreach($this->images as $image){?>
+	    <div class="fancy">
+            <a rel="fancy" href="<?=$dir.$image['name']?>"><img src="<?=$dir."min/".$image['name']?>" /></a>
+			<span class="send" id="send_<?=$image['id']?>" >Poslat</span>
+        </div>
+<?php }
+} ?>
+
+<div id="sendPopUp"></div>
+<div id="popUp">
+
+</div>

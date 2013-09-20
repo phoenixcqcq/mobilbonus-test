@@ -1,0 +1,67 @@
+<?php if ($this->warning) { ?>
+<div id="message"><?= $this->warning; ?></div>
+<?php } ?>
+
+<h3>Databáze</h3>
+<?php
+$userForm = $this->userForm;
+$userForm->prepare();
+$userForm->setAttribute('action', $this->url('databaze', array('action' => 'ulozit')));
+echo $this->form()->openTag($userForm);
+?>
+<table>
+	<tbody>
+	<tr>
+		<td><?= $userForm->get('firstname')->getLabel(); ?></td>
+		<td><?= $this->formElement($userForm->get('firstname')); ?></td>
+	</tr>
+	<tr>
+		<td><?= $userForm->get('lastname')->getLabel(); ?></td>
+		<td><?= $this->formElement($userForm->get('lastname')); ?></td>
+	</tr>
+
+<?php if($this->user){?>
+	<tr>
+		<td><?= $userForm->get('street')->getLabel(); ?></td>
+		<td><?= $this->formElement($userForm->get('street')); ?></td>
+	</tr>
+	<tr>
+		<td><?= $userForm->get('town')->getLabel(); ?></td>
+		<td><?= $this->formElement($userForm->get('town')); ?></td>
+	</tr>
+<?php }?>
+
+	<tr>
+		<td><input type="hidden" name="id" value="<?php if($this->user){ echo $this->user['id']; } ?>"></td>
+		<td><?= $this->formSubmit($userForm->get('submit')); ?></td>
+	</tr>
+	</tbody>
+</table>
+<?= $this->form()->closeTag(); ?>
+
+<?php if($this->users){ ?>
+<table class="dataTable">
+	<thead>
+		<tr>
+			<th>Jméno</th>
+			<th>Příjmení</th>
+			<th>Ulice</th>
+			<th>Město</th>
+			<th>Editovat</th>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+	foreach($this->users as $user){?>
+		<tr>
+			<td><?=$user['firstname']?></td>
+			<td><?=$user['lastname']?></td>
+			<td><?=$user['street']?></td>
+			<td><?=$user['town']?></td>
+			<td><a href="<?=$this->basePath()?>/databaze/editovat/<?=$user['id']?>"><div class="edit"></div></a></td>
+		</tr>
+<?php } ?>
+	</tbody>
+</table>
+<?php } ?>
+
